@@ -4,15 +4,18 @@ import "izitoast/dist/css/iziToast.min.css";
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
-export function getImage() {
+import { galleryImg } from '../main';
+import { formData } from '../main';
+
+export function getImage(inputData) {
     const BASE_URL = 'https://pixabay.com';
     const END_POINT = '/api/';
     const params = new URLSearchParams({
         key: '43066959-f9f55707df0fe34b818b99119',
-        q: value,
+        q: inputData,
         image_type: 'photo',
         orientation: 'horizontal',
-        safesearch: 'true',
+        safesearch: true,
     });
     const url = `${BASE_URL}${END_POINT}?${params}`;
 
@@ -25,3 +28,4 @@ export function getImage() {
         return response.json();
     });
 }
+
