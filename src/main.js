@@ -11,17 +11,15 @@ export const galleryImg = document.querySelector('.gallery');
 export const formData = document.querySelector('.form');
 
 
-const galleryObj = {
-    captionsData: 'alt',
-};
 
-let lightbox = new SimpleLightbox('.gallery a', galleryObj);
-lightbox.on('show.simplelightbox', function () { });
+let lightbox = new SimpleLightbox('.gallery a', {
+    captionsData: 'alt'
+});
 
 
 formData.addEventListener('submit', event => {
     event.preventDefault();
-    const inputData = event.currentTarget.elements.image.value.trim();
+    const inputData = event.target.elements.image.value.trim();
 
     if (inputData === '') {
         iziToast.error({
@@ -29,33 +27,31 @@ formData.addEventListener('submit', event => {
             position: 'center',
             message: "Please enter a search query!",
         });
-        return; 
-    }
+        return;
+    };
 
     const loader = document.createElement('div');
     loader.classList.add('loader');
-    galleryImg.appendChild(loader);
+    document.body.appendChild(loader); 
+
 
     getImage(inputData)
         .then(data => {
-
-            galleryImg.removeChild(loader);
-            
             const markup = imageType(data.hits);
             galleryImg.innerHTML = markup;
+             
             lightbox.refresh();
+            
             if (data.hits.length === 0) {
                 iziToast.info({
                     title: 'Info',
                     position: 'center',
                     message: "Sorry, there are no images matching your search query. Please try again!",
                 });
+                return;
             } 
         })
         .catch(error => {
-
-            galleryImg.removeChild(loader);
-            
             iziToast.error({
                 color: 'red',
                 position: 'center',
@@ -63,6 +59,8 @@ formData.addEventListener('submit', event => {
             });
         })
         .finally(() => {
-            formData.reset();
+           formData.reset();
+            document.body.removeChild(loader);
         });
 });
+

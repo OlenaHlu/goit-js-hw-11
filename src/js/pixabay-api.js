@@ -4,8 +4,6 @@ import "izitoast/dist/css/iziToast.min.css";
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
-import { galleryImg } from '../main';
-import { formData } from '../main';
 
 export function getImage(inputData) {
     const BASE_URL = 'https://pixabay.com';
@@ -28,4 +26,7 @@ export function getImage(inputData) {
         return response.json();
     });
 }
+
+
+
 
